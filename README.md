@@ -27,10 +27,11 @@ You will need the following dependencies:
 2) Access to ERA5 datasets
 
 	a) Ensure you are a member of `rt52`
-	b) Ensure you are a member of `uc1`
+
+	b) Ensure you are a member of `uc16`
 
 
-Ensure that you request `storage=gdata/hh5+gdata/rt52+gdatauc1` when asking for resources on `gadi`
+Ensure that you request `storage=gdata/hh5+gdata/rt52+gdata/uc16` when asking for resources on `gadi`
 
 
 Once you have run the code, it should produce some `.png` maps in the `Figures/` directory, and some 
