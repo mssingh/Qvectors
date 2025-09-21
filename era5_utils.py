@@ -5,12 +5,23 @@ import glob
 import os
 
 
-import xarray as xr
-import pandas as pd
-import glob
-import os
 
-def open_era5_month(directory: str, year: int, month: int,
+
+# Location of data
+data_loc = '/g/data/rt52/era5/'
+data_loc_pressure = data_loc+'pressure-levels/reanalysis/'
+data_loc_single = data_loc+'single-levels/reanalysis/'
+
+data_loc_pv = '/g/data/uc16/era5/potential-vorticity/oper/'
+
+# String for level description in filenames
+p_str = 'era5_oper_pl'
+s_str = 'era5_oper_sfc'
+pv_str = 'era5_pv_oper_an'
+
+
+
+def open_era5_month(year: int, month: int,
                     day: int = None, hour: int = None,
                     variables=("u","v","t","z")) -> xr.Dataset:
     """
@@ -39,11 +50,29 @@ def open_era5_month(directory: str, year: int, month: int,
     """
     files = []
     for var in variables:
-        file_directory = directory+var+'/'+str(year)+'/'
-        pattern = os.path.join(file_directory, f"{var}_era5_oper_pl_{year}{month:02d}*.nc")
+ 
+        # Try to load as a pressure variable 
+        file_directory = data_loc_pressure+var+'/'+str(year)+'/'
+        pattern = os.path.join(file_directory, f"{var}_{p_str}_{year}{month:02d}*.nc")
         match = glob.glob(pattern)
+
         if not match:
-            raise FileNotFoundError(f"No {var} file found for {year}-{month:02d} in {directory}")
+   
+            # Try to load as a single-level variable            
+            file_directory = data_loc_single+var+'/'+str(year)+'/'
+            pattern = os.path.join(file_directory, f"{var}_{s_str}_{year}{month:02d}*.nc")
+            match = glob.glob(pattern)
+
+            if not match:
+
+                # Try to load as a dynamical tropopause variable            
+                file_directory = data_loc_pv+var+'/'+str(year)+'/'
+                pattern = os.path.join(file_directory, f"{var}_{pv_str}_{year}{month:02d}*.nc")
+                match = glob.glob(pattern)
+      
+            if not match:
+                raise FileNotFoundError(f"No {var} file found for {year}-{month:02d}")
+
         if len(match) > 1:
             raise ValueError(f"Multiple {var} files matched: {match}")
         files.extend(match)
