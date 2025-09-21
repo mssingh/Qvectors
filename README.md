@@ -5,7 +5,7 @@
 Simple package to take ERA5 data from gadi and plot Q-vectors and PV diagnostics for a given region. 
 The script takes a range of times and makes an mp4 as well as providing each frame as a .png.
 
-Works for the Australian region, but probably soe bugs remain when trying to shift the box.
+Works for the Australian region, but probably some bugs remain when trying to shift the box.
 
 ### Instructions
 
@@ -19,10 +19,10 @@ You will need the following dependencies:
 	a) Ensure you are a member of `hh5`
 
 	b) Type the following commands
-	<pre>	```
+```
 		$ module use /g/data/hh5/public/modules
 		$ module load conda/analysis3-22.10 
-	</pre>	```
+```
 
 2) Access to ERA5 datasets
 
