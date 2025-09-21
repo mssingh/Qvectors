@@ -21,9 +21,7 @@ pv_str = 'era5_pv_oper_an'
 
 
 
-def open_era5_month(year: int, month: int,
-                    day: int = None, hour: int = None,
-                    variables=("u","v","t","z")) -> xr.Dataset:
+def open_era5_month(dt,variables=("u","v","t","z")) -> xr.Dataset:
     """
     Open ERA5 monthly NetCDF files for specified variables and optionally
     select a specific time (day/hour).
@@ -48,6 +46,11 @@ def open_era5_month(year: int, month: int,
     xr.Dataset
         The opened dataset with selected variables, optionally sliced in time.
     """
+
+    dt = pd.to_datetime(dt)  # ensure it's a pandas Timestamp
+    year, month, day, hour = dt.year, dt.month, dt.day, dt.hour
+
+
     files = []
     for var in variables:
  
@@ -80,10 +83,7 @@ def open_era5_month(year: int, month: int,
     # Merge all variables into a single dataset
     ds = xr.open_mfdataset(files, combine="by_coords")
 
-    # Time slice if requested
-    if day is not None and hour is not None:
-        time_sel = pd.Timestamp(year, month, day, hour)
-        ds = ds.sel(time=time_sel)
+    ds = ds.sel(time=dt)
 
     return ds
 
