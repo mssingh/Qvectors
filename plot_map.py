@@ -63,7 +63,7 @@ surf_level = 900
 
 
 # Variables we need
-variables = ['z','u','v','w','t','msl','pt']
+variables = ['z','u','v','w','t','msl','tp','pt']
 
 
 # Smoothing for the calculation of Q-vectors 
@@ -106,6 +106,9 @@ for tt in timestamps:
     # Ensure the data is sorted with increasing lon and lat
     ds = ds.sortby('latitude')
     ds = ds.sortby('longitude')
+   
+    # Don't coarsen the precip 
+    tp = ds.tp
 
     # Coarsen to 1x1 deg
     ds = ds.coarsen(latitude=4, longitude=4, boundary='trim').mean()
@@ -136,7 +139,6 @@ for tt in timestamps:
 
     # Smooth the vertical motion so it is comparable to the QG omega forcing
     w = mpcalc.smooth_n_point(ds.w, n_smooth, N_smooth_q)
-
 
     ### Make the plots ##############################################
     print('    Plotting...')
@@ -184,6 +186,13 @@ for tt in timestamps:
                   ticks=clevs_qdiv)
     cb.set_label('Q-Vector Div. (*10$^{18}$ m s$^{-1}$ kg$^{-1}$)')
 
+    # Plot precipitation
+    clevs_tp = np.arange(0, 6, 0.5)
+    tpplot = tp*1000
+    tpplot = np.where(tpplot<0.04,np.nan,tpplot)
+    cf = ax.contourf(tp.longitude, tp.latitude, tpplot, clevs_tp, cmap='Greens',alpha=0.5,
+                 extend='both', transform=datacrs)
+
     # Plot 850-hPa Temperatures
     clevs_t = np.arange(230, 310, 2)
     csf = ax.contour(ds.longitude, ds.latitude, t, clevs_t, colors='grey',
@@ -211,8 +220,8 @@ for tt in timestamps:
           transform=datacrs)
 
     # Add some titles
-    plt.title('ERA5 850-hPa: z (black; m), T (grey; K)'
-          ', Q-Vec. (arrows), Q-vec div. (colors), ascent (green)', loc='left',fontsize=10)
+    plt.title('ERA5 850-hPa: Q-vec & div., z (black; m), T (grey; K)'
+          ', ascent (green line), prec. (green shading)', loc='left',fontsize=10)
 
     time_str = pd.Timestamp(ds.time.values).strftime("%Y-%m-%d %H:%M")
     plt.title('{} UTC'.format(time_str), loc='right',fontsize=10)
