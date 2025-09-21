@@ -19,10 +19,10 @@ You will need the following dependencies:
 	a) Ensure you are a member of `hh5`
 
 	b) Type the following commands
-		```
+	<pre>	```
 		$ module use /g/data/hh5/public/modules
 		$ module load conda/analysis3-22.10 
-		```
+	</pre>	```
 
 2) Access to ERA5 datasets
 
