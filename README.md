@@ -30,32 +30,32 @@ You will need the following dependencies:
 You can use the scripts either by logging into gadi via ssh and running an interactive job on the
 supercomputer, or using the Australian Research Environment (ARE).
 
-	a) Log in to gadi using your username and password:
+a) Log in to gadi using your username and password:
 
 ```
 		ssh -Y uername@gadi.nci.org.au
 ```
 
-	b) Type the following commands:
+b) Type the following commands:
 ```
 		module use /g/data/xp65/public/modules
 		module load conda/analysis3
 ```
 
-	c) Clone the repository into a directory on gadi, and change into that directory :
+c) Clone the repository into a directory on gadi, and change into that directory :
 ```
 		git clone git@github.com:mssingh/Qvectors.git Qvectors
 		cd Qvectors
 ```
 
-	d) Begin an interactive job on gadi:
+d) Begin an interactive job on gadi:
 ```
 		qsub -I -X -P k10  -q normal -l storage=storage=gdata/xp65+gdata/rt52+gdata/uc16 -l walltime=8:00:00,mem=12000MB -l ncpus=1
 ```
 
-		You may have to replace `k10` with a different project.
+You may have to replace `k10` with a different project.
 
-	e) You may now run the python script `plot_map.py` using
+e) You may now run the python script `plot_map.py` using
 ```
 		python3 plot_map.py
 ```
