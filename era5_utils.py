@@ -53,24 +53,27 @@ def open_era5_month(dt,variables=("u","v","t","z")) -> xr.Dataset:
 
     files = []
     for var in variables:
+
+        # For unknown reasons "u10" is in the folder "10u"
+        dirname = move_trailing_number_to_start(var)
  
         # Try to load as a pressure variable 
-        file_directory = data_loc_pressure+var+'/'+str(year)+'/'
-        pattern = os.path.join(file_directory, f"{var}_{p_str}_{year}{month:02d}*.nc")
+        file_directory = data_loc_pressure+dirname+'/'+str(year)+'/'
+        pattern = os.path.join(file_directory, f"{dirname}_{p_str}_{year}{month:02d}*.nc")
         match = glob.glob(pattern)
 
         if not match:
    
             # Try to load as a single-level variable            
-            file_directory = data_loc_single+var+'/'+str(year)+'/'
-            pattern = os.path.join(file_directory, f"{var}_{s_str}_{year}{month:02d}*.nc")
+            file_directory = data_loc_single+dirname+'/'+str(year)+'/'
+            pattern = os.path.join(file_directory, f"{dirname}_{s_str}_{year}{month:02d}*.nc")
             match = glob.glob(pattern)
 
             if not match:
 
                 # Try to load as a dynamical tropopause variable            
-                file_directory = data_loc_pv+var+'/'+str(year)+'/'
-                pattern = os.path.join(file_directory, f"{var}_{pv_str}_{year}{month:02d}*.nc")
+                file_directory = data_loc_pv+dirnamr+'/'+str(year)+'/'
+                pattern = os.path.join(file_directory, f"{dirname}_{pv_str}_{year}{month:02d}*.nc")
                 match = glob.glob(pattern)
       
             if not match:
@@ -87,3 +90,21 @@ def open_era5_month(dt,variables=("u","v","t","z")) -> xr.Dataset:
 
     return ds
 
+
+
+# Claude wrote these functions
+import re
+
+def move_trailing_number_to_start(s):
+    match = re.match(r'^(.*?)(\d+)$', s)
+    if match:
+        rest, number = match.groups()
+        return number + rest
+    return s
+
+def move_leading_number_to_end(s):
+    match = re.match(r'^(\d+)(.*)', s)
+    if match:
+        number, rest = match.groups()
+        return rest + number
+    return s
