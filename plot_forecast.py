@@ -132,7 +132,7 @@ for tt in timestamps:
     ## Plot the CAPE and CIN
 
     # Make the map
-    fig,ax = make_map(lons,lats,grid_spacing=5,states=True,Melbourne=True)
+    fig,ax = make_map(lons,lats,grid_spacing=5,states=True,Melbourne=True,regional=True)
 
 
     # Plot CAPE
@@ -182,7 +182,7 @@ for tt in timestamps:
 
     ## Plot the humidity and shear
 
-    fig,ax = make_map(lons,lats,grid_spacing=5,states=True,Melbourne=True)
+    fig,ax = make_map(lons,lats,grid_spacing=5,states=True,Melbourne=True,regional=True)
 
 
     # Plot humdity
@@ -231,7 +231,7 @@ for tt in timestamps:
 
     ## Plot the winds and divergence
 
-    fig,ax = make_map(lons,lats,grid_spacing=5,states=True,Melbourne=True)
+    fig,ax = make_map(lons,lats,grid_spacing=5,states=True,Melbourne=True,regional=True)
 
 
     # Plot divergence

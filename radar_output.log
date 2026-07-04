@@ -1,0 +1,14 @@
+Loading conda/analysis3-26.05
+  Loading requirement: singularity
+
+======================================================================================
+                  Resource Usage on 2026-07-04 13:44:45:
+   Job Id:             172976487.gadi-pbs
+   Project:            k10
+   Exit Status:        0
+   Service Units:      17.57
+   NCPUs Requested:    1                   CPU Time Used: 01:29:23        
+   Memory Requested:   23.44GB               Memory Used: 2.34GB          
+   Walltime Requested: 24:00:00            Walltime Used: 01:29:58        
+   JobFS Requested:    100.0MB                JobFS Used: 37.0B           
+======================================================================================

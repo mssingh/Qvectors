@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#PBS -P k10
+#PBS -q normal
+#PBS -l walltime=24:00:00,mem=24000MB
+#PBS -l ncpus=1
+#PBS -l wd
+#PBS -lstorage=gdata/wa6+scratch/k10+gdata/k10+gdata/hh5+gdata/rt52+gdata/al33+gdata/xp65+gdata/uc16
+#PBS -j oe
+#PBS -o radar_output.log
+
+module use /g/data/xp65/public/modules
+module load conda/analysis3
+
+python3 plot_radar.py >& radar_output.txt
+
+
+
